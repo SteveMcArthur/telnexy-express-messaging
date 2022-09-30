@@ -40,5 +40,4 @@ app.use('/', home);
 
 app.use('/messaging', messaging);
 
-app.listen(config.TELNYX_APP_PORT);
-console.log(`Server listening on port ${config.TELNYX_APP_PORT}`);
+module.exports = app;
