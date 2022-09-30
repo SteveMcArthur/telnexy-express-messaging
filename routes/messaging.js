@@ -1,10 +1,6 @@
 const express  = require('express');
 const config = require('../config');
 const fs = require('fs');
-const axios = require('axios');
-const AWS = require('aws-sdk');
-const path = require('path');
-AWS.config.update({region: config.AWS_REGION});
 
 
 const telnyx = require('telnyx')(config.TELNYX_API_KEY);
@@ -25,7 +21,7 @@ const outboundMessageController = async (req, res) => {
 const inboundMessageController = async (req, res) => {
   res.sendStatus(200); // Play nice and respond to webhook
   const event = req.body.data;
-  console.log(`Received inbound message with ID: ${event.payload.id}`)
+  console.log("Message: "+event.payload.text)
   const toNumber = event.payload.to[0].phone_number;
   const fromNumber = event.payload['from'].phone_number;
 
