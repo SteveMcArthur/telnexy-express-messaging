@@ -22,11 +22,13 @@ const inboundMessageController = async (req, res) => {
   res.sendStatus(200); // Play nice and respond to webhook
   const event = req.body.data;
   console.log("Message: "+event.payload.text);
+  console.log("From No: "+event.payload['from'].phone_number);
+  console.log("To No: "+event.payload.to[0].phone_number);
   const dlrUrl = (new URL('/messaging/outbound', `${req.protocol}://${req.hostname}`)).href;
   const toNumber = event.payload.to[0].phone_number;
   const fromNumber = event.payload['from'].phone_number;
   const msg = event.payload.text;
-
+/* 
     try {
       const messageRequest = {
         from: toNumber,
@@ -43,6 +45,7 @@ const inboundMessageController = async (req, res) => {
       console.log('Error sending message');
       console.log(e);
     }
+ */
 
 }
 
