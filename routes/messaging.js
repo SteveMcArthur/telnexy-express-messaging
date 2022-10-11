@@ -21,9 +21,28 @@ const outboundMessageController = async (req, res) => {
 const inboundMessageController = async (req, res) => {
   res.sendStatus(200); // Play nice and respond to webhook
   const event = req.body.data;
-  console.log("Message: "+event.payload.text)
+  console.log("Message: "+event.payload.text);
+  const dlrUrl = (new URL('/messaging/outbound', `${req.protocol}://${req.hostname}`)).href;
   const toNumber = event.payload.to[0].phone_number;
   const fromNumber = event.payload['from'].phone_number;
+  const msg = event.payload.text;
+
+    try {
+      const messageRequest = {
+        from: toNumber,
+        to: fromNumber,
+        text: msg,
+        webhook_url: dlrUrl,
+        use_profile_webhooks: false
+      }
+
+      const telnyxResponse = await telnyx.messages.create(messageRequest);
+      console.log(`Sent message with id: ${telnyxResponse.data.id}`);
+    }
+    catch (e)  {
+      console.log('Error sending message');
+      console.log(e);
+    }
 
 }
 
