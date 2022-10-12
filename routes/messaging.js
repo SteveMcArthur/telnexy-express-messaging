@@ -24,9 +24,11 @@ const inboundMessageController = async (req, res) => {
   console.log("Message: "+event.payload.text);
   console.log("From No: "+event.payload['from'].phone_number);
   console.log("To No: "+event.payload.to[0].phone_number);
+  console.log("Forward to No: "+config.MY_NUMBER);
   const dlrUrl = (new URL('/messaging/outbound', `${req.protocol}://${req.hostname}`)).href;
-  const toNumber = event.payload.to[0].phone_number;
-  const fromNumber = event.payload['from'].phone_number;
+  const toNumber = event.payload.to[0].phone_number; // your telnyx number
+  const fromNumber = event.payload['from'].phone_number;// who ever sent you the text
+  const forwardNumber = config.MY_NUMBER;
   const msg = event.payload.text;
 /* 
     try {
